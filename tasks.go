@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/base64"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io"
@@ -184,6 +185,65 @@ func SubscribeCallback(c mpg.Context, w http.ResponseWriter, r *http.Request) {
 	} else {
 		c.Infof("not viewed")
 	}
+}
+
+func CreateChannel(c mpg.Context, w http.ResponseWriter, r *http.Request) {
+	gn := goon.FromContext(c)
+
+
+	ch := Channel{Id: r.FormValue("id")}
+	if err := gn.Get(&ch);
+
+	err != nil {
+		ch = Channel{Id: r.FormValue("id"), FeedLinks: r.FormValue("feedLinks")}
+		gn.Put(&ch)
+		return
+	}
+
+	if strings.Contains(ch.FeedLinks, r.FormValue("feedLinks")) {
+        //fmt.Printf("Found subStr in str \n")
+    } else {
+        feedLinks := ch.FeedLinks + ";" + r.FormValue("feedLinks")
+		ch.FeedLinks = feedLinks
+		gn.Put(&ch)
+    }	
+}
+
+func GetChannels(c mpg.Context, w http.ResponseWriter, r *http.Request) {
+	gn := goon.FromContext(c)
+	q := datastore.NewQuery(gn.Kind(&Channel{}))
+	var ch []Channel
+	
+	_, err1 := gn.GetAll(q, &ch)
+	if err1 != nil {
+	 	return
+	}
+
+	b, err2 := json.Marshal(ch)
+	if err2 != nil {
+	 	return
+	}
+	
+	w.Write(b)
+}
+
+func TotalFeed(c mpg.Context, w http.ResponseWriter, r *http.Request) {
+	gn := goon.FromContext(c)
+	q := datastore.NewQuery(gn.Kind(&Feed{})).KeysOnly()
+	var fd []Feed
+	
+	_, err1 := gn.GetAll(q, &fd)
+	if err1 != nil {
+	 	return
+	}
+
+	b, err2 := json.Marshal(fd)
+	if err2 != nil {
+	 	return
+	}
+	
+	w.Write(b)
+	
 }
 
 // Task used to subscribe a feed to push.

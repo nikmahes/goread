@@ -788,9 +788,9 @@ func GetFeed(c mpg.Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteAccount(c mpg.Context, w http.ResponseWriter, r *http.Request) {
-	if _, err := doUncheckout(c); err != nil {
+	/*if _, err := doUncheckout(c); err != nil {
 		c.Errorf("uncheckout err: %v", err)
-	}
+	}*/
 	cu := user.Current(c)
 	gn := goon.FromContext(c)
 	u := User{Id: cu.ID}

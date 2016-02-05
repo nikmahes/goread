@@ -121,6 +121,12 @@ type readStory struct {
 
 type Read map[readStory]bool
 
+type Channel struct {
+	_kind      string        `goon:"kind,C"`
+	Id     	   string        `datastore:"-" goon:"id"`
+    FeedLinks  string        `datastore:"f,noindex"`
+}
+
 type Feed struct {
 	_kind      string        `goon:"kind,F"`
 	Url        string        `datastore:"-" goon:"id"`

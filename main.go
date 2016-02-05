@@ -62,6 +62,9 @@ func RegisterHandlers(r *mux.Router) {
 	router.Handle("/logout", mpg.NewHandler(Logout)).Name("logout")
 	router.Handle("/push", mpg.NewHandler(SubscribeCallback)).Name("subscribe-callback")
 	router.Handle("/tasks/import-opml", mpg.NewHandler(ImportOpmlTask)).Name("import-opml-task")
+	router.Handle("/tasks/create-channel", mpg.NewHandler(CreateChannel)).Name("create-channel")
+	router.Handle("/tasks/get-channels", mpg.NewHandler(GetChannels)).Name("get-channels")
+	router.Handle("/tasks/total-feed", mpg.NewHandler(TotalFeed)).Name("total-feed")
 	router.Handle("/tasks/subscribe-feed", mpg.NewHandler(SubscribeFeed)).Name("subscribe-feed")
 	router.Handle("/tasks/update-feed-last", mpg.NewHandler(UpdateFeedLast)).Name("update-feed-last")
 	router.Handle("/tasks/update-feed-manual", mpg.NewHandler(UpdateFeed)).Name("update-feed-manual")
@@ -93,9 +96,9 @@ func RegisterHandlers(r *mux.Router) {
 	router.Handle("/admin/subhub", mpg.NewHandler(AdminSubHub)).Name("admin-subhub-feed")
 	router.Handle("/admin/stats", mpg.NewHandler(AdminStats)).Name("admin-stats")
 	router.Handle("/admin/update-feed", mpg.NewHandler(AdminUpdateFeed)).Name("admin-update-feed")
-	router.Handle("/user/charge", mpg.NewHandler(Charge)).Name("charge")
+/*	router.Handle("/user/charge", mpg.NewHandler(Charge)).Name("charge")
 	router.Handle("/user/account", mpg.NewHandler(Account)).Name("account")
-	router.Handle("/user/uncheckout", mpg.NewHandler(Uncheckout)).Name("uncheckout")
+	router.Handle("/user/uncheckout", mpg.NewHandler(Uncheckout)).Name("uncheckout")*/
 
 	//router.Handle("/tasks/delete-blobs", mpg.NewHandler(DeleteBlobs)).Name("delete-blobs")
 
